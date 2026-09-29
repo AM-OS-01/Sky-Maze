@@ -7,10 +7,10 @@ Sky Maze is an iPhone app for manually organizing booked travel into a trip time
 - Choose Flight, Hotel, Vacation Rental, Train, Rental Car, or Coach Bus.
 - Enter the details and save. Flights, trains, and coaches support outbound, optional return, and connecting legs.
 - Continue through the trip-building screen, review the cards, and save the trip to home.
-- Swipe between standalone booking cards and their actions on home. Share and the ellipsis stay stationary above the pager; the menu targets the selected card. No page shows a neighboring-card preview.
+- Swipe between standalone booking cards and their actions on home. The upper-right toolbar scrolls with its card; the menu targets that card. No page shows a neighboring-card preview.
 - Booking cards use the shared frames 5–12 design on home, results, and Previous Trips: 356pt width, larger typography, adaptive height for long content, and aligned date/time rows. Home action tiles use 92pt notes and 90pt actions; the two-location rental shows pickup/dropoff, completion/weather, then Calendar.
 - Home automatically focuses the relevant unfinished card on entry and app foreground. It never pulls the user away while browsing. See [home card focus](Docs/Home-Card-Focus.md).
-- Use the permanent actions for confirmed locations, weather, and completion. The ellipsis contains Edit Details, Replace Trip, Previous Trips, and Privacy Policy, followed by a divider and a red Remove Trip action. The former two-option bottom sheet is removed; the separate previous-trip deletion sheet remains.
+- Use the permanent actions for confirmed locations, weather, and completion. The ellipsis contains Edit Details, Add to Calendar, Add to Trip, and Previous Trips, followed by a divider and a red Remove Trip action. Add to Trip appends new events without replacing existing travel details. Privacy Policy is in the information menu. The separate previous-trip deletion confirmation remains.
 - Travel Note opens one editable, autosaving text note per booking (a connected journey shares one note). The tile changes to View Note once populated. Notes remain offline on the device with the trip, including in Previous Trips, where each card has a note link. Calendar and Share remain disabled.
 - Notes use a native source-to-sheet zoom on iOS 18+; older systems and Reduce Motion use the standard sheet presentation. Done flushes pending text before closing; save failures keep the editor open with Retry. Typing stays local to the editor with debounced saves, also flushed when the app becomes inactive.
 
