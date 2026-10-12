@@ -38,6 +38,30 @@ The manual flow uses `TravelRecord`, typed `Travel…` booking models, and `Trav
 
 Saved trips retain the existing SwiftData schema and JSON keys. `TravelRecord.title` still encodes under the original `subject` key. `LegacyTravelMetadata` preserves previously saved provenance/status fields when reading, editing, and saving older trips; it does not enable extraction or automatic booking updates.
 
-`Website/index.html` is the local privacy-page source. Editing it does not publish changes to the hosted policy.
+## Privacy policy publishing
+
+`Website/privacy.html` is the canonical privacy-policy source, last updated October 12, 2026. `index.html` redirects to it, and the support page links to it. The app's information menu and subscription screen both use `https://am-os-01.github.io/Sky-Maze/privacy.html`.
+
+Publish `privacy.html`, `index.html`, `support.html`, and `styles.css` together to the GitHub Pages site root. Editing these local files does not publish changes to the hosted policy. Verify the hosted `/Sky-Maze/privacy.html` before release. The app URL does not need to change.
+
+The policy covers scanning through Railway/OpenAI, local files and recovery, traveler sharing, Apple services, StoreKit, and privacy requests. The earlier manual-only implementation notes above are historical and are not a privacy description of the current scanning/subscription build.
+
+### Privacy implementation audit — October 12, 2026
+
+- `ScreenshotUploadPreparation` re-encodes images; `PDFImportPreparation` renders pages. The scanning wire format contains images, not original PDFs or file names. Visible personal information is not redacted.
+- `Backend/app/extraction.py` uses `store: false`; this is not zero provider retention. The policy uses [OpenAI's published data controls](https://developers.openai.com/api/docs/guides/your-data), not an assumption about the production account's settings.
+- `Backend/app/device_auth.py` persists installation registrations without automatic expiry. Challenge cleanup and `ledger.py` daily cleanup are request-driven, not scheduled deletion guarantees. The Docker command disables Uvicorn access logging, but hosting logs and backups still need operator review.
+- `TravelerTripFile` shares selected records/travelers and optional notes/complete confirmations as independent copies. `TripSharePDF` remains a separate export path. No live cloud collaboration or App Store invite-link behavior is claimed.
+- `SubscriptionStore` reads verified StoreKit entitlement/offer information on device. It does not send transaction data to the scanning backend. Local StoreKit testing is not a live subscription launch.
+- `SkyMaze/PrivacyInfo.xcprivacy` now declares photos, other user content, installation identifiers, scan interactions, and diagnostics for app functionality; linked is conservatively true because content may identify travelers and request records link to installations. Tracking remains false. The existing UserDefaults required-reason declaration is preserved.
+- Payment-card information is handled by Apple, not received by this code. On-device trip data and on-device StoreKit state alone are not declared as off-device collection. Reassess Purchase History if server-side purchase verification or transaction storage is added. Review any specifically extracted personal fields, support intake, and hosting metadata before submitting final privacy labels.
+
+### Remaining release checks
+
+1. Publish these website files and verify the exact URL from the app on a device. No hosting deployment or App Store Connect changes are performed by a local edit.
+2. Confirm actual Railway log/backup retention, OpenAI data-sharing/retention settings, processing regions, and the operator's privacy-request handling. Do not claim zero retention or no training without confirming account settings.
+3. Review the final policy for the intended launch jurisdictions and operator identity. This implementation-based draft is not a legal compliance certification.
+4. Review the pre-scan disclosure and explicit permission for sharing personal data with the AI provider before public release; updating a policy does not implement a consent flow.
+5. Update App Store Connect privacy answers separately. The bundled manifest does not publish privacy labels. Use [Apple's collection and linkage guidance](https://developer.apple.com/app-store/app-privacy-details/) and [manifest data types](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacycollecteddatatypes/nsprivacycollecteddatatype).
 
 See [retained scan storage](Docs/Scan-Recovery.md) and [home animations](Docs/Home-Time-Of-Day.md).
